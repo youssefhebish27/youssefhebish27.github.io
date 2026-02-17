@@ -4,7 +4,7 @@ Welcome to my personal portfolio! This website showcases my journey as a **Softw
 
 ## 🌐 Live 
 Check out the live website here:
-👉 **[Click Here to View Portfolio](https://youssefhebish27.github.io/qa-portfolio/)**
+👉 **[Click Here to View Portfolio](https://youssefhebish27.github.io)**
 *(Note: Replace the link above with your actual link after deployment)*
 
 ## 🌟 Overview
