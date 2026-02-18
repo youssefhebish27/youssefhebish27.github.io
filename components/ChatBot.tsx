@@ -117,7 +117,7 @@ const ChatBot: React.FC = () => {
     if (!chatInstance.current) {
       const apiKey = process.env.API_KEY;
       if (!apiKey) return null;
-      
+
       const ai = new GoogleGenAI({ apiKey });
       chatInstance.current = ai.chats.create({
         model: 'gemini-3-flash-preview',
@@ -156,9 +156,17 @@ const ChatBot: React.FC = () => {
           });
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Chat Error:", error);
-      setMessages(prev => [...prev, { role: 'model', text: "⚠️ Sorry, I encountered a connection error. Please check your internet or try again later." }]);
+      let errorText = "⚠️ Sorry, I encountered a connection error. Please check your internet or try again later.";
+      
+      if (error.message === "API Key missing") {
+        errorText = "⚠️ Configuration Error: API Key is missing. Check your environment configuration.";
+      } else if (error.message?.includes("403")) {
+         errorText = "⚠️ API Access Denied. Please check your API Key quotas or restrictions.";
+      }
+      
+      setMessages(prev => [...prev, { role: 'model', text: errorText }]);
     } finally {
       setIsLoading(false);
     }

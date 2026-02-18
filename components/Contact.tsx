@@ -15,7 +15,13 @@ const Contact: React.FC = () => {
     
     setIsPolishing(true);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const apiKey = process.env.API_KEY;
+      if (!apiKey) {
+          console.error("API Key is missing (process.env.API_KEY)");
+          return;
+      }
+      
+      const ai = new GoogleGenAI({ apiKey });
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: `Rewrite the following message to be more professional, polite, and concise for a business inquiry. Only return the refined message text. Message: "${message}"`

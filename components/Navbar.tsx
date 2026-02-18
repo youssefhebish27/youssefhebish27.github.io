@@ -5,6 +5,7 @@ import { NAV_ITEMS } from '../constants';
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  // Default to 'light' if no preference is saved
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
   useEffect(() => {
@@ -13,13 +14,16 @@ const Navbar: React.FC = () => {
     };
     window.addEventListener('scroll', handleScroll);
     
-    // Initial theme setup
-    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    // Logic: Only activate dark mode if explicitly saved in localStorage.
+    // Otherwise, default to light (even if system is dark).
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
       setTheme('dark');
       document.documentElement.classList.add('dark');
     } else {
       setTheme('light');
       document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
     }
 
     return () => window.removeEventListener('scroll', handleScroll);
