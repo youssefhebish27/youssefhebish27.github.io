@@ -5,30 +5,28 @@ import { NAV_ITEMS } from '../constants';
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  // Default to 'light' if no preference is saved
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+
+  // Initialize theme state:
+  // 1. Check localStorage immediately.
+  // 2. If 'dark' is explicitly saved, use it.
+  // 3. Otherwise, ALWAYS default to 'light' (ignoring system preferences).
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      return savedTheme === 'dark' ? 'dark' : 'light';
+    }
+    return 'light';
+  });
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
-    
-    // Logic: Only activate dark mode if explicitly saved in localStorage.
-    // Otherwise, default to light (even if system is dark).
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      setTheme('dark');
-      document.documentElement.classList.add('dark');
-    } else {
-      setTheme('light');
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Sync the DOM class with the state immediately whenever theme changes
   useEffect(() => {
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
@@ -40,7 +38,7 @@ const Navbar: React.FC = () => {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
   return (
