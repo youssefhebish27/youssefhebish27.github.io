@@ -55,6 +55,39 @@
       ::-webkit-scrollbar-thumb:hover {
         background: #4f46e5;
       }
+      
+      /* Markdown Content Styling */
+      .markdown-content p {
+        margin-bottom: 0.5rem;
+      }
+      .markdown-content p:last-child {
+        margin-bottom: 0;
+      }
+      .markdown-content ul, .markdown-content ol {
+        margin-bottom: 0.5rem;
+        padding-left: 1.25rem;
+      }
+      .markdown-content li {
+        margin-bottom: 0.25rem;
+      }
+      .markdown-content ul {
+        list-style-type: disc;
+      }
+      .markdown-content ol {
+        list-style-type: decimal;
+      }
+      .markdown-content strong {
+        font-weight: 700;
+      }
+      .markdown-content code {
+        background-color: rgba(0,0,0,0.1);
+        padding: 0.1rem 0.3rem;
+        border-radius: 0.25rem;
+        font-family: monospace;
+      }
+      .dark .markdown-content code {
+        background-color: rgba(255,255,255,0.1);
+      }
     </style>
 
   <script type="importmap">
@@ -67,11 +100,12 @@
     "lucide-react": "https://esm.sh/lucide-react@0.469.0",
     "framer-motion": "https://esm.sh/framer-motion@11.15.0",
     "react-type-animation": "https://esm.sh/react-type-animation@3.2.0",
+    "react-markdown": "https://esm.sh/react-markdown@9.0.1",
     "@google/genai": "https://esm.sh/@google/genai@0.2.1"
   }
 }
 </script>
-  <script type="module" crossorigin src="/assets/index-u9NDggHH.js"></script>
+  <script type="module" crossorigin src="/assets/index-CiTBMBhz.js"></script>
 </head>
   <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased transition-colors duration-300">
     <div id="root"></div>
