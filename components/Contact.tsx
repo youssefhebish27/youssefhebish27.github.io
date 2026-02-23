@@ -102,7 +102,7 @@ const Contact: React.FC = () => {
 
   return (
     <section id="contact" className="py-20 bg-gradient-to-br from-primary-700 to-primary-900 text-white">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -123,10 +123,12 @@ const Contact: React.FC = () => {
 
               <div className="space-y-6">
                 <div className="flex items-center group">
-                  <div className="p-3 bg-white/10 rounded-lg mr-4 group-hover:bg-secondary-500 transition-colors">
+                  <div className="p-3 bg-white/10 rounded-lg mr-4 group-hover:bg-[#EA4335] transition-colors shadow-lg group-hover:shadow-[#EA4335]/20">
                     <Mail className="text-white" size={20} />
                   </div>
-                  <span className="text-lg">{CONTACT_INFO.email}</span>
+                  <span className="text-lg transition-all duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#4285F4] group-hover:via-[#EA4335] group-hover:via-[#FBBC05] group-hover:to-[#34A853] font-medium">
+                    {CONTACT_INFO.email}
+                  </span>
                 </div>
                 
                 {/* WhatsApp Link */}
@@ -134,35 +136,35 @@ const Contact: React.FC = () => {
                   href={CONTACT_INFO.whatsapp} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center group cursor-pointer hover:text-secondary-400 transition-colors"
+                  className="flex items-center group cursor-pointer transition-colors"
                 >
-                   <div className="p-3 bg-white/10 rounded-lg mr-4 group-hover:bg-[#25D366] transition-colors">
+                   <div className="p-3 bg-white/10 rounded-lg mr-4 group-hover:bg-[#25D366] transition-colors shadow-lg group-hover:shadow-[#25D366]/20">
                     <MessageCircle className="text-white" size={20} />
                   </div>
-                  <span className="text-lg font-medium">{CONTACT_INFO.phone} (WhatsApp)</span>
+                  <span className="text-lg font-medium group-hover:text-[#25D366] transition-colors">{CONTACT_INFO.phone} (WhatsApp)</span>
                 </a>
 
                 <div className="flex items-center group">
-                   <div className="p-3 bg-white/10 rounded-lg mr-4 group-hover:bg-secondary-500 transition-colors">
+                   <div className="p-3 bg-white/10 rounded-lg mr-4 group-hover:bg-[#4285F4] transition-colors shadow-lg group-hover:shadow-[#4285F4]/20">
                     <MapPin className="text-white" size={20} />
                   </div>
-                  <span className="text-lg">{CONTACT_INFO.location}</span>
+                  <span className="text-lg group-hover:text-[#4285F4] transition-colors">{CONTACT_INFO.location}</span>
                 </div>
               </div>
 
               <div className="flex space-x-4 mt-10">
-                <a href={CONTACT_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/10 rounded-full hover:bg-secondary-500 transition-all hover:-translate-y-1">
+                <a href={CONTACT_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/10 rounded-full hover:bg-[#0077B5] transition-all hover:-translate-y-1 shadow-lg hover:shadow-[#0077B5]/20">
                   <Linkedin size={24} />
                 </a>
-                <a href={CONTACT_INFO.github} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/10 rounded-full hover:bg-secondary-500 transition-all hover:-translate-y-1">
+                <a href={CONTACT_INFO.github} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/10 rounded-full hover:bg-[#333] transition-all hover:-translate-y-1 shadow-lg hover:shadow-black/20">
                   <Github size={24} />
                 </a>
               </div>
             </div>
 
             {/* Contact Form Container */}
-            <div className="bg-white/10 backdrop-blur-lg p-1 rounded-2xl border border-white/20 shadow-2xl relative min-h-[550px] flex flex-col">
-              <div className="p-8 flex-1 flex flex-col justify-center">
+            <div className="bg-white/10 backdrop-blur-lg p-1 rounded-2xl border border-white/20 shadow-2xl relative flex flex-col">
+              <div className="p-6 md:p-10 flex-1 flex flex-col">
                 <AnimatePresence mode="wait">
                   {status === 'success' ? (
                     <motion.div
@@ -177,7 +179,7 @@ const Contact: React.FC = () => {
                       </div>
                       <h3 className="text-2xl font-bold mb-4">Message Sent!</h3>
                       <p className="text-primary-100 mb-8">
-                        Thank you for reaching out. I will get back to you as soon as possible via email or WhatsApp.
+                        Thank you for reaching out. I will get back to you as soon as possible via email.
                       </p>
                       <button
                         onClick={() => setStatus('idle')}
@@ -241,15 +243,6 @@ const Contact: React.FC = () => {
                       <div>
                         <div className="flex justify-between items-center mb-1">
                            <label htmlFor="message" className="block text-sm font-medium text-primary-200">Message <span className="text-red-400">*</span></label>
-                           <button
-                              type="button"
-                              onClick={polishMessage}
-                              disabled={isPolishing || !message.trim() || message.length < 5}
-                              className="text-xs flex items-center gap-1 text-secondary-400 hover:text-secondary-300 disabled:opacity-50 transition-colors"
-                           >
-                              {isPolishing ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
-                              Refine with AI
-                           </button>
                         </div>
                         <textarea 
                           name="message" 

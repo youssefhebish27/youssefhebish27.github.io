@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, X, Send, Loader2, Sparkles, User, Bot, RefreshCw, ChevronRight } from 'lucide-react';
+import { MessageSquare, X, Send, Loader2, Sparkles, User, Bot, RefreshCw, ChevronRight, Hammer, Construction } from 'lucide-react';
 import { GoogleGenAI } from "@google/genai";
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -96,6 +96,7 @@ const parseBold = (text: string) => {
 
 const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const isMaintenance = false; // Disabled maintenance mode as requested
   const [messages, setMessages] = useState<Message[]>([
     { role: 'model', text: "Hello! 👋 I hope you're having a wonderful day! \n\nI'm Youssef's AI Assistant. I can tell you about his **Testing Skills**, **Projects**, or discuss QA concepts. How can I help?" }
   ]);
@@ -115,9 +116,9 @@ const ChatBot: React.FC = () => {
   // Initialize Chat Session
   const getChatSession = () => {
     if (!chatInstance.current) {
-      const apiKey = process.env.API_KEY;
-      if (!apiKey) return null;
-
+      // Using the hardcoded key provided by the user
+      const apiKey = "AIzaSyCJDZsZRTh_MbFvsXS1UC3ClqynzDbuX0A";
+      
       const ai = new GoogleGenAI({ apiKey });
       chatInstance.current = ai.chats.create({
         model: 'gemini-3-flash-preview',
@@ -200,8 +201,8 @@ const ChatBot: React.FC = () => {
                   <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 border-2 border-primary-700 rounded-full animate-pulse"></span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-base">Portfolio AI</h3>
-                  <p className="text-xs text-primary-200">Online</p>
+                  <h3 className="font-bold text-base">Smart AI Assistant</h3>
+                  <p className="text-xs text-primary-200">{isMaintenance ? 'Coming Soon' : 'Online'}</p>
                 </div>
               </div>
               <div className="flex gap-1">
@@ -215,51 +216,122 @@ const ChatBot: React.FC = () => {
             </div>
 
             {/* --- Chat Area --- */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-6 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
-              {messages.map((msg, idx) => {
-                const isUser = msg.role === 'user';
-                const isArabicText = /[\u0600-\u06FF]/.test(msg.text);
-                
-                return (
+            <div className={`flex-1 overflow-hidden flex flex-col bg-white dark:bg-gray-800 ${isMaintenance ? 'p-0' : 'p-4 space-y-6 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600'}`}>
+              {isMaintenance ? (
+                <div className="flex-1 flex flex-col items-center justify-center text-center p-6 relative overflow-hidden">
+                  {/* Creative Background Pattern */}
+                  <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
+                    <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(#4f46e5 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+                  </div>
+
                   <motion.div 
-                    key={idx}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`flex items-end gap-3 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ type: "spring", damping: 12 }}
+                    className="relative mb-6"
                   >
-                    {/* Avatar */}
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm ${isUser ? 'bg-primary-100 dark:bg-primary-900' : 'bg-gradient-to-br from-secondary-400 to-secondary-600'}`}>
-                      {isUser ? <User size={14} className="text-primary-700 dark:text-primary-300" /> : <Sparkles size={14} className="text-white" />}
+                    <div className="w-24 h-24 bg-gradient-to-tr from-primary-500/20 to-secondary-500/20 rounded-[2rem] flex items-center justify-center relative group">
+                      <div className="absolute inset-0 border-2 border-primary-500/20 rounded-[2rem] animate-[pulse_3s_infinite]"></div>
+                      <div className="w-18 h-18 bg-white dark:bg-gray-700 rounded-[1.5rem] shadow-xl flex items-center justify-center border border-gray-100 dark:border-gray-600">
+                        <Bot size={36} className="text-primary-600 dark:text-primary-400" />
+                      </div>
                     </div>
-                    
-                    {/* Bubble */}
-                    <div 
-                      className={`max-w-[85%] p-4 rounded-2xl text-sm shadow-sm leading-relaxed ${
-                        isUser 
-                          ? 'bg-primary-600 text-white rounded-br-none' 
-                          : 'bg-white dark:bg-gray-700/80 text-gray-800 dark:text-gray-100 border border-gray-100 dark:border-gray-600 rounded-bl-none'
-                      }`}
-                      dir={isArabicText ? 'rtl' : 'ltr'}
+                    <motion.div 
+                      animate={{ 
+                        y: [0, -5, 0],
+                        rotate: [0, 10, -10, 0]
+                      }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute -top-2 -right-2 bg-gradient-to-br from-secondary-400 to-secondary-500 text-white p-2 rounded-xl shadow-xl shadow-secondary-500/20"
                     >
-                      <FormattedText text={msg.text} isRtl={isArabicText} />
-                    </div>
+                      <Sparkles size={16} />
+                    </motion.div>
                   </motion.div>
-                );
-              })}
-              
-              {isLoading && (
-                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-secondary-400 to-secondary-600 flex items-center justify-center flex-shrink-0">
-                      <Loader2 size={14} className="text-white animate-spin" />
+
+                  <div className="space-y-8 max-w-[320px] relative z-10">
+                    <div className="space-y-3">
+                      <h4 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight leading-none">
+                        Smart AI <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">Assistant</span>
+                      </h4>
+                      <p className="text-base text-gray-500 dark:text-gray-400 leading-relaxed font-medium">
+                        I am currently learning and getting ready. I will be back soon to help you!
+                      </p>
                     </div>
-                    <span className="text-xs text-gray-500 dark:text-gray-400 animate-pulse">Thinking...</span>
-                 </motion.div>
+
+                    <div className="flex items-center justify-center gap-4">
+                      <div className="h-px flex-1 bg-gradient-to-r from-transparent to-gray-200 dark:to-gray-700"></div>
+                      <div className="flex gap-1">
+                        {[1, 2, 3].map(i => (
+                          <motion.div 
+                            key={i}
+                            animate={{ opacity: [0.3, 1, 0.3] }}
+                            transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
+                            className="w-1.5 h-1.5 rounded-full bg-primary-500"
+                          />
+                        ))}
+                      </div>
+                      <div className="h-px flex-1 bg-gradient-to-l from-transparent to-gray-200 dark:to-gray-700"></div>
+                    </div>
+
+                    <div className="pt-2">
+                      <div className="relative inline-block group">
+                        <div className="absolute inset-0 bg-primary-600 blur-lg opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
+                        <div className="relative flex items-center gap-3 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full text-xs font-black tracking-[0.15em] uppercase shadow-2xl">
+                          <RefreshCw size={14} className="animate-spin text-primary-500" />
+                          <span>Building v2.0</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {messages.map((msg, idx) => {
+                    const isUser = msg.role === 'user';
+                    const isArabicText = /[\u0600-\u06FF]/.test(msg.text);
+                    
+                    return (
+                      <motion.div 
+                        key={idx}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className={`flex items-end gap-3 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
+                      >
+                        {/* Avatar */}
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm ${isUser ? 'bg-primary-100 dark:bg-primary-900' : 'bg-gradient-to-br from-secondary-400 to-secondary-600'}`}>
+                          {isUser ? <User size={14} className="text-primary-700 dark:text-primary-300" /> : <Sparkles size={14} className="text-white" />}
+                        </div>
+                        
+                        {/* Bubble */}
+                        <div 
+                          className={`max-w-[85%] p-4 rounded-2xl text-sm shadow-sm leading-relaxed ${
+                            isUser 
+                              ? 'bg-primary-600 text-white rounded-br-none' 
+                              : 'bg-white dark:bg-gray-700/80 text-gray-800 dark:text-gray-100 border border-gray-100 dark:border-gray-600 rounded-bl-none'
+                          }`}
+                          dir={isArabicText ? 'rtl' : 'ltr'}
+                        >
+                          <FormattedText text={msg.text} isRtl={isArabicText} />
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                  
+                  {isLoading && (
+                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-secondary-400 to-secondary-600 flex items-center justify-center flex-shrink-0">
+                          <Loader2 size={14} className="text-white animate-spin" />
+                        </div>
+                        <span className="text-xs text-gray-500 dark:text-gray-400 animate-pulse">Thinking...</span>
+                     </motion.div>
+                  )}
+                  <div ref={messagesEndRef} />
+                </>
               )}
-              <div ref={messagesEndRef} />
             </div>
 
             {/* --- Quick Suggestions --- */}
-            {messages.length === 1 && (
+            {!isMaintenance && messages.length === 1 && (
               <div className="px-4 pb-2">
                 <p className="text-xs text-gray-400 mb-2 pl-1 font-medium">Suggested questions:</p>
                 <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
@@ -277,28 +349,30 @@ const ChatBot: React.FC = () => {
             )}
 
             {/* --- Input Area --- */}
-            <form 
-              onSubmit={(e) => { e.preventDefault(); handleSend(input); }} 
-              className="p-4 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700/50"
-            >
-              <div className="relative flex items-center gap-2">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  dir="auto"
-                  placeholder="Ask me anything..."
-                  className="flex-1 pl-4 pr-12 py-3.5 bg-gray-50 dark:bg-gray-900/50 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/20 border border-gray-200 dark:border-gray-600 focus:border-primary-500 transition-all placeholder-gray-400 text-sm shadow-inner"
-                />
-                <button 
-                  type="submit"
-                  disabled={isLoading || !input.trim()}
-                  className="absolute right-2 p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:bg-gray-400 transition-all shadow-md"
-                >
-                  <Send size={16} />
-                </button>
-              </div>
-            </form>
+            {!isMaintenance && (
+              <form 
+                onSubmit={(e) => { e.preventDefault(); handleSend(input); }} 
+                className="p-4 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700/50"
+              >
+                <div className="relative flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    dir="auto"
+                    placeholder="Ask me anything..."
+                    className="flex-1 pl-4 pr-12 py-3.5 bg-gray-50 dark:bg-gray-900/50 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/20 border border-gray-200 dark:border-gray-600 focus:border-primary-500 transition-all placeholder-gray-400 text-sm shadow-inner"
+                  />
+                  <button 
+                    type="submit"
+                    disabled={isLoading || !input.trim()}
+                    className="absolute right-2 p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:bg-gray-400 transition-all shadow-md"
+                  >
+                    <Send size={16} />
+                  </button>
+                </div>
+              </form>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

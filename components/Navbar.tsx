@@ -5,6 +5,7 @@ import { NAV_ITEMS } from '../constants';
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   // Initialize theme state:
   // 1. Check localStorage immediately.
@@ -24,6 +25,34 @@ const Navbar: React.FC = () => {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Active Section Tracking
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -70% 0px', // Adjust these values to fine-tune when a section is considered "active"
+      threshold: 0
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Get all sections that have IDs matching our NAV_ITEMS
+    NAV_ITEMS.forEach((item) => {
+      const sectionId = item.href.replace('#', '');
+      const element = document.getElementById(sectionId);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   // Sync the DOM class with the state immediately whenever theme changes
@@ -55,17 +84,25 @@ const Navbar: React.FC = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            {NAV_ITEMS.map((item) => (
-              <a 
-                key={item.label}
-                href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-secondary-500 dark:hover:text-secondary-400 ${
-                  scrolled ? 'text-gray-700 dark:text-gray-200' : 'text-white/90'
-                }`}
-              >
-                {item.label}
-              </a>
-            ))}
+            {NAV_ITEMS.map((item) => {
+              const isActive = activeSection === item.href.replace('#', '');
+              return (
+                <a 
+                  key={item.label}
+                  href={item.href}
+                  className={`text-sm font-medium transition-all duration-300 relative group ${
+                    isActive 
+                      ? 'text-secondary-500 dark:text-secondary-400' 
+                      : scrolled 
+                        ? 'text-gray-700 dark:text-gray-200 hover:text-secondary-500 dark:hover:text-secondary-400' 
+                        : 'text-white/90 hover:text-white'
+                  }`}
+                >
+                  {item.label}
+                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-secondary-500 dark:bg-secondary-400 transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                </a>
+              );
+            })}
             
             <button 
               onClick={toggleTheme}
@@ -105,16 +142,23 @@ const Navbar: React.FC = () => {
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        {NAV_ITEMS.map((item) => (
-          <a 
-            key={item.label}
-            href={item.href}
-            className="text-2xl font-medium text-gray-800 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400"
-            onClick={() => setIsOpen(false)}
-          >
-            {item.label}
-          </a>
-        ))}
+        {NAV_ITEMS.map((item) => {
+          const isActive = activeSection === item.href.replace('#', '');
+          return (
+            <a 
+              key={item.label}
+              href={item.href}
+              className={`text-2xl font-medium transition-colors ${
+                isActive 
+                  ? 'text-primary-600 dark:text-primary-400' 
+                  : 'text-gray-800 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400'
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              {item.label}
+            </a>
+          );
+        })}
       </div>
     </>
   );

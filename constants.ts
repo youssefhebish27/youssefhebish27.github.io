@@ -89,7 +89,7 @@ export const KEY_LEARNINGS: KeyLearning[] = [
 
 // 1. Testing Core
 export const TESTING_CORE: Skill[] = [
-  { name: 'Manual Testing (Black Box)', level: 95 },
+  { name: 'Manual Testing', level: 95 },
   { name: 'Bug Reporting', level: 95 },
   { name: 'API Testing (Postman & Hoppscotch)', level: 85 },
 ];
@@ -258,7 +258,7 @@ export const CONTACT_INFO = {
   email: 'youssefhebish27@gmail.com',
   whatsapp: 'https://wa.me/201550234911',
   phone: '+20 15 50234911',
-  location: 'Cairo, Egypt',
+  location: 'Gharbia, Egypt',
   linkedin: 'https://www.linkedin.com/in/youssef-hebish/',
   github: 'https://github.com/youssefhebish27',
   formAction: 'https://formsubmit.co/youssefhebish27@gmail.com'
