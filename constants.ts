@@ -256,7 +256,7 @@ export const CERTIFICATIONS: CertificationItem[] = [
 
 export const CONTACT_INFO = {
   email: 'youssefhebish27@gmail.com',
-  whatsapp: 'https://wa.me/201550234911',
+  whatsapp: 'https://wa.me/201027335956',
   phone: '+20 15 50234911',
   location: 'Gharbia, Egypt',
   linkedin: 'https://www.linkedin.com/in/youssef-hebish/',
