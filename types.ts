@@ -22,14 +22,28 @@ export interface EducationItem {
   institution: string;
   year: string;
   description: string;
+  modules?: string[];
 }
 
 export interface CertificationItem {
+  id?: string;
   title: string;
   issuer: string;
+  date?: string;
+  role?: string;
   color: string;
-  courses?: string[]; // Added for Rowad Masr list
-  status?: string; // Added to indicate "In Progress"
+  courses?: string[];
+  status?: string;
+  certificateUrl?: string;
+  hasModal?: boolean;
+  certificateDetails?: {
+    recipientName: string;
+    description: string;
+    period: string;
+    signatoryName: string;
+    signatoryTitle: string;
+    organization: string;
+  };
 }
 
 export interface StatItem {
@@ -46,8 +60,13 @@ export interface ProjectLink {
 }
 
 export interface Project {
+  id?: string;
   title: string;
+  category?: 'mobile' | 'api' | 'agile' | 'internship' | 'crowdtesting' | 'automation';
   description: string;
+  fullDescription?: string;
+  keyHighlights?: string[];
+  toolsUsed?: string[];
   tags: string[];
   links: ProjectLink[];
   color: string;

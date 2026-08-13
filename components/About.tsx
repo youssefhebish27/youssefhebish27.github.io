@@ -1,8 +1,9 @@
 import React from 'react';
 import SectionWrapper from './SectionWrapper';
-import { STATS, RESUME_LINK, KEY_LEARNINGS } from '../constants';
-import { ExternalLink, FileText, CheckCircle2 } from 'lucide-react';
+import { STATS, KEY_LEARNINGS } from '../constants';
+import { ExternalLink, CheckCircle2, Award, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
+import ResumeButton from './ResumeButton';
 
 const About: React.FC = () => {
   return (
@@ -12,7 +13,7 @@ const About: React.FC = () => {
           About <span className="text-primary-600 dark:text-primary-400">Me</span>
         </h2>
         <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          I make sure software works perfectly by testing it carefully and finding bugs before users do.
+          Testing web and mobile applications to find bugs, verify APIs, and ensure great user experience before launch.
         </p>
       </div>
       
@@ -23,40 +24,50 @@ const About: React.FC = () => {
           <img 
             src="/profile.jpg" 
             alt="Youssef Hebish" 
-            className="relative rounded-2xl shadow-2xl w-full max-w-sm h-auto aspect-[3/4] object-cover border-4 border-white dark:border-gray-700"
+            className="relative rounded-2xl shadow-2xl w-full max-w-sm h-auto aspect-[2/3] object-cover object-top border-4 border-white dark:border-gray-700"
+            onError={(e) => {
+              // Fallback if profile.jpg is missing in local environment
+              e.currentTarget.src = "profile.jpg"; // Ensure this path is correct for your local setup
+            }}
           />
         </div>
 
         <div className="order-2 lg:order-2">
-          <h3 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-800 dark:text-gray-100 leading-tight">
-            Software Tester & CS Student
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-teal-100 dark:bg-teal-900/40 text-teal-800 dark:text-teal-300 rounded-full text-xs font-bold mb-4 border border-teal-200 dark:border-teal-700">
+            <ShieldCheck size={14} />
+            Certified QC Member & Software Tester
+          </div>
+
+          <h3 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-800 dark:text-gray-100 leading-tight">
+            Software Quality Assurance & Testing
           </h3>
-          <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-base md:text-lg">
-            I am a 3rd-year <strong className="text-primary-700 dark:text-primary-400">Computer Science Student</strong> with good knowledge of Java and OOP.
-          </p>
-          <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-base md:text-lg">
-            Currently, I am working as a <strong className="text-secondary-600 dark:text-secondary-400">Software Testing Intern at MedicaSpace</strong> (using ClickUp) and working as a <strong className="text-secondary-600 dark:text-secondary-400">Freelance Tester on Test.io</strong>.
-          </p>
-          <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed text-base md:text-lg">
-             I focus on quality. I analyze requirements in <strong className="text-gray-900 dark:text-white">Agile</strong> teams, write <strong className="text-gray-900 dark:text-white">hundreds of Test Scenarios</strong> to cover every detail, and manage bugs using <strong className="text-gray-900 dark:text-white">Jira</strong>. My goal is to deliver a bug-free product.
+
+          <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed text-base">
+            I am a dedicated Web & Software Quality Assurance Specialist and <strong className="text-primary-700 dark:text-primary-400 font-semibold">4th-year Computer Science Student</strong>. I focus on making sure web applications and APIs work flawlessly through manual testing, Postman API collections, and end-to-end user journey validation.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4">
+          <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-base">
+            I completed a 3-month <strong className="text-teal-600 dark:text-teal-400 font-semibold">QC Member Internship at MedicaSpace</strong> focusing on Web Quality Control, actively hunt bugs on <strong className="text-secondary-600 dark:text-secondary-400 font-semibold">Test.io</strong>, and completed the <strong className="text-secondary-600 dark:text-secondary-400 font-semibold">Digital Pioneers of Egypt (Rowad Masr)</strong> Software Testing track.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-3.5">
+            {/* Unified Resume Action Pill */}
+            <ResumeButton variant="about" />
+
             <a 
-              href={RESUME_LINK} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-primary-600 to-primary-700 text-white font-medium rounded-lg hover:from-primary-700 hover:to-primary-800 transition-all shadow-lg hover:shadow-primary-600/30 transform hover:-translate-y-0.5"
+              href="#certifications" 
+              className="inline-flex items-center justify-center px-4 py-3 bg-gray-100 dark:bg-gray-700/80 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-600 font-medium rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all text-sm shadow-sm"
             >
-              <FileText className="mr-2" size={20} />
-              View Resume
+              <Award className="mr-2" size={18} />
+              <span>Certificates & Internship</span>
             </a>
+
             <a 
               href="#projects" 
-              className="inline-flex items-center justify-center px-6 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
+              className="inline-flex items-center justify-center px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-medium rounded-xl hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-sm"
             >
-              <CheckCircle2 className="mr-2" size={20} />
-              My Projects
+              <CheckCircle2 className="mr-2" size={18} />
+              <span>Projects</span>
             </a>
           </div>
         </div>
@@ -67,7 +78,6 @@ const About: React.FC = () => {
         <h3 className="text-2xl md:text-3xl font-bold text-center mb-10 text-gray-900 dark:text-white">
           Core <span className="text-secondary-500">Skills</span>
         </h3>
-        {/* Adjusted Grid: smaller gap, slightly more compact */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {KEY_LEARNINGS.map((item, index) => (
             <motion.div
@@ -91,7 +101,7 @@ const About: React.FC = () => {
       </div>
 
       {/* Bottom Section: Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {STATS.map((stat, index) => (
           <div 
             key={index} 
@@ -104,7 +114,7 @@ const About: React.FC = () => {
           >
             <div className="absolute top-0 left-0 w-full h-full bg-white opacity-5 mix-blend-overlay"></div>
             <h4 className="text-4xl font-bold mb-2 text-white drop-shadow-md">{stat.value}</h4>
-            <p className="text-white font-medium text-lg opacity-90">{stat.label}</p>
+            <p className="text-white font-medium text-base opacity-90">{stat.label}</p>
           </div>
         ))}
       </div>

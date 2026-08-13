@@ -163,8 +163,8 @@ const Contact: React.FC = () => {
             </div>
 
             {/* Contact Form Container */}
-            <div className="bg-white/10 backdrop-blur-lg p-1 rounded-2xl border border-white/20 shadow-2xl relative flex flex-col">
-              <div className="p-6 md:p-10 flex-1 flex flex-col">
+            <div className="bg-white/10 backdrop-blur-lg p-1 rounded-2xl border border-white/20 shadow-2xl relative min-h-[550px] flex flex-col">
+              <div className="p-5 md:p-8 flex-1 flex flex-col justify-center">
                 <AnimatePresence mode="wait">
                   {status === 'success' ? (
                     <motion.div
